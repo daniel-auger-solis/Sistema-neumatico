@@ -648,24 +648,39 @@ class App:
                                   "Servicios que requieren aire comprimido")
         body = self._sec2.body
 
-        # ── Tabla con alineación perfecta ─────────────────────────────────
-        # frame_tabla es el único grid-master. Fila 0 = header (Labels),
-        # filas 1..N = una FilaEquipo cada una.
-        # Todos los widgets de header y de fila comparten la misma columna
-        # de grid, por lo que tkinter garantiza alineación exacta.
-        self.frame_tabla = tk.Frame(body, bg=C["panel"])
-        self.frame_tabla.pack(fill="x", anchor="w")
-        self._next_eq_row = 1   # fila 0 reservada para el header
+        # ── Encabezados + tabla ──────────────────────────────────────────
+        # NOTA MANUAL DE AJUSTE:
+        # Si los encabezados no alinean con las columnas, ajusta los valores
+        # HDR_OFFSETS en pixels para cada columna: (padx_izq, padx_der)
+        # Los anchos de columna de las filas están definidos en COL_DEFS (en chars).
+        HDR_OFFSETS = {
+            #  key        padx_izq  padx_der
+            "nombre":    (4,        2),
+            "cant":      (4,        2),
+            "p_req":     (4,        2),
+            "caudal":    (4,        2),
+            "tipo":      (4,        2),
+            "uso":       (4,        2),
+            "p_ref":     (4,        2),
+            "t_ref":     (4,        2),
+            "del":       (4,        2),
+        }
 
-        # Header: Labels en fila 0 del mismo frame_tabla
-        for col_idx, (key, cw, title) in enumerate(COL_DEFS):
-            tk.Label(self.frame_tabla, text=title,
+        hdr = tk.Frame(body, bg=C["border"])
+        hdr.pack(fill="x", pady=(0, 1))
+        for key, cw, title in COL_DEFS:
+            pad = HDR_OFFSETS.get(key, (COL_PAD, COL_PAD))
+            tk.Label(hdr, text=title,
                      bg=C["border"], fg=C["accent"],
                      font=("Consolas", 10, "bold"),
-                     anchor="w").grid(row=0, column=col_idx,
-                                      padx=COL_PAD, pady=(3,2), sticky="w")
+                     width=cw, anchor="w").pack(
+                         side="left", padx=pad, pady=3)
 
-        # frame_eq es alias para que _agregar_fila sepa dónde crear las filas
+        self.frame_tabla = tk.Frame(body, bg=C["panel"])
+        self.frame_tabla.pack(fill="x", anchor="w")
+        self._next_eq_row = 1
+
+        # frame_eq es alias para compatibilidad
         self.frame_eq = self.frame_tabla
 
         mk_lbl(body,
@@ -1071,8 +1086,12 @@ class App:
         for f in self.filas:
             f.destroy()
         self.filas.clear()
+        self._next_eq_row = 1   # resetear contador (fila 0 = header)
         for eq in data.get("equipos", []):
-            f = FilaEquipo(self.frame_eq, on_delete=self._eliminar_fila)
+            f = FilaEquipo(self.frame_tabla, on_delete=self._eliminar_fila)
+            f.row.grid(row=self._next_eq_row, column=0,
+                       columnspan=len(COL_DEFS), sticky="ew", pady=1)
+            self._next_eq_row += 1
             f.from_dict(eq)
             self.filas.append(f)
 
