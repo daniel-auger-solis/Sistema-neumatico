@@ -1,23 +1,21 @@
 {
   "t_amb": "38",
   "p_atm": "0,76",
-  "dp_can": "fijo",
+  "dp_can": "pct",
   "dp_sala": "",
   "p_auto": false,
   "p_manual": "6,21",
   "fs": "50",
-  "dep_dp": "1,0",
-  "dep_z": "10",
-  "dep_src": "auto",
-  "dep_q_m": "",
+  "dep_t": "300",
+  "dep_pmax": "10,3",
   "equipos": [
     {
       "nombre": "actuadores",
       "cant": "33",
       "p_req": "6",
-      "caudal": "0,847",
+      "caudal": "0,81",
       "tipo": "scfm",
-      "uso": "100",
+      "uso": "50",
       "p_ref": "",
       "t_ref": ""
     },
