@@ -105,14 +105,14 @@ TIPOS = ["FAD (m³/min)", "scfm", "Normalizado (Nl/min)", "Personalizado"]
 
 # Anchos de columna en caracteres (Entry y encabezado comparten)
 COL_DEFS = [
-    ("nombre", 15, "Equipo"),
-    ("cant",    5, "Cant."),
-    ("p_req",   8, "P req (bar g)"),
-    ("caudal",  9, "Caudal"),
-    ("tipo",   19, "Tipo caudal"),
-    ("uso",     6, "Uso (%)"),
-    ("p_ref",   8, "P ref (bar g)"),
-    ("t_ref",   7, "T ref (°C)"),
+    ("nombre", 20, "Equipo"),           # Aumentado de 15 a 20
+    ("cant",    7, "Cant."),           # Aumentado de 5 a 7
+    ("p_req",  13, "P req (bar g)"),   # Aumentado de 8 a 12
+    ("caudal", 10, "Caudal"),          # Aumentado de 9 a 10
+    ("tipo",   22, "Tipo caudal"),     # Aumentado de 19 a 22
+    ("uso",     8, "Uso (%)"),         # Aumentado de 6 a 8
+    ("p_ref",  13, "P ref (bar g)"),   # Aumentado de 8 a 12
+    ("t_ref",  10, "T ref (°C)"),      # Aumentado de 7 a 10
     ("del",     3, ""),
 ]
 # Padding horizontal por columna en px (igual para hdr y fila)
@@ -654,17 +654,16 @@ class App:
         # HDR_OFFSETS en pixels para cada columna: (padx_izq, padx_der)
         # Los anchos de columna de las filas están definidos en COL_DEFS (en chars).
         HDR_OFFSETS = {
-            #  key        padx_izq  padx_der
-            "nombre":    (4,        2),
-            "cant":      (4,        2),
-            "p_req":     (4,        2),
-            "caudal":    (4,        2),
-            "tipo":      (4,        2),
-            "uso":       (4,        2),
-            "p_ref":     (4,        2),
-            "t_ref":     (4,        2),
-            "del":       (4,        2),
-        }
+    "nombre":    (0, 2),
+    "cant":      (0, 2),
+    "p_req":     (4, 2),
+    "caudal":    (4, 2),
+    "tipo":      (4, 2),
+    "uso":       (4, 2),
+    "p_ref":     (4, 2),
+    "t_ref":     (4, 2),
+    "del":       (4, 2),
+}
 
         hdr = tk.Frame(body, bg=C["border"])
         hdr.pack(fill="x", pady=(0, 1))
@@ -892,7 +891,7 @@ class App:
         RES_COLS = [
             (22, "Equipo"),
             (14, "q_N (Nl/min)"),
-            (20, "q_FAD máx inst. (m³/min)"),
+            (25, "q_FAD máx inst. (m³/min)"),
             (7,  "Uso (%)"),
             (23, "q_FAD efectivo (m³/min)"),
         ]
